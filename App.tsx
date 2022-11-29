@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Keyboard,
-  Switch
+  Switch,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
@@ -17,18 +17,16 @@ export default function App() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [person, setPerson] = useState(true);
-  const [idNumber, setIdNumber] = useState('');
+  const [idNumber, setIdNumber] = useState("");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [maxLenght, setMaxLenght] = useState('')
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
-      base64: true,
     });
 
     if (!result.canceled) {
@@ -37,7 +35,7 @@ export default function App() {
   };
 
   const submit = async () => {
-    if ( idNumber.trim().length !== (person? 11 : 10)) {
+    if (idNumber.trim().length !== (person ? 11 : 10)) {
       alert("Podaj numer dowodu osobistego lub NIP");
       return;
     }
@@ -53,11 +51,11 @@ export default function App() {
           surname,
           person,
           idNumber,
-          image
+          image,
         }),
       }).then(async (response) => {
         if (response.status === 404) {
-          alert("Nie znaleziono metody zapisu")
+          alert("Nie znaleziono metody zapisu");
         } else {
           console.log(response);
         }
@@ -70,7 +68,7 @@ export default function App() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.textHeader}>Jakub Kasprzyk</Text>
@@ -78,14 +76,14 @@ export default function App() {
         <View style={styles.footer}>
           <View style={styles.action}>
             <TextInput
-              onChangeText={(value) => setName(value)}
+              onChangeText={setName}
               placeholder="Imie"
               style={styles.textInput}
             />
           </View>
           <View style={styles.action}>
             <TextInput
-              onChangeText={(value) => setSurname(value)}
+              onChangeText={setSurname}
               placeholder="Nazwisko"
               style={styles.textInput}
             />
@@ -95,15 +93,15 @@ export default function App() {
             <Switch
               trackColor={{ false: "#767577", true: "#767577" }}
               thumbColor={person ? "blue" : "blue"}
-              onValueChange={() => setPerson(prev => !prev)}
+              onValueChange={() => setPerson((prev) => !prev)}
               value={person}
             />
             <Text>Osoba</Text>
             <TextInput
-              onChangeText={(value) => setIdNumber(value)}
+              onChangeText={setIdNumber}
               placeholder="id"
               keyboardType="numeric"
-              maxLength={person? 11 : 10}
+              maxLength={person ? 11 : 10}
               style={styles.textInput}
             />
           </View>
